@@ -1,10 +1,8 @@
-/*
- * TODO: публичные и приватные линки
- */
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import routes from '../routes';
+import { connect } from 'react-redux';
+import { authSelectors } from '../redux/auth';
 
 const styles = {
   link: {
@@ -19,20 +17,28 @@ const styles = {
   },
 };
 
-const Navigation = () => (
+const Navigation = ({ isAuthenticated }) => (
   <nav>
-    {routes.map(route => (
-      <NavLink
-        exact={route.exact}
-        key={route.label}
-        to={route.path}
-        style={styles.link}
-        activeStyle={styles.activeLink}
-      >
-        {route.label}
-      </NavLink>
-    ))}
+    {routes.map(
+      route =>
+        ((!isAuthenticated && !route.private) ||
+          (isAuthenticated && !route.restricted)) && (
+          <NavLink
+            exact={route.exact}
+            key={route.label}
+            to={route.path}
+            style={styles.link}
+            activeStyle={styles.activeLink}
+          >
+            {route.label}
+          </NavLink>
+        ),
+    )}
   </nav>
 );
 
-export default Navigation;
+const mapStateToProps = state => ({
+  isAuthenticated: authSelectors.isAuthenticated(state),
+});
+
+export default connect(mapStateToProps)(Navigation);

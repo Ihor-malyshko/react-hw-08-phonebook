@@ -1,7 +1,3 @@
-/*
- * TODO: Подписаться на name и avatar https://icon-library.net/images/avatar-icon-images/avatar-icon-images-7.jpg
- * TODO: диспатч операцию logout
- */
 import React from 'react';
 import { connect } from 'react-redux';
 import { authSelectors, authOperations } from '../redux/auth';

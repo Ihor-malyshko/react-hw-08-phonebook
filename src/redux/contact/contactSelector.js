@@ -1,8 +1,6 @@
-import { createSelector } from '@reduxjs/toolkit';
-
 const getItems = state => state.contact.items;
 
-const isLoading = state => state.contact.loadingReducer;
+const getLoading = state => state.contact.loading;
 
 const getFilter = state => state.contact.filter;
 
@@ -14,7 +12,7 @@ const getFilteredContacts = state => {
 
 export default {
   getItems,
-  isLoading,
+  getLoading,
   getFilter,
   getFilteredContacts,
 };

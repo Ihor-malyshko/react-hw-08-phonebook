@@ -1,50 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Logo from './Logo/Logo';
-import Section from './section/Section';
-import PhoneList from './phoneList/PhoneList';
-import ContactForm from './contactForm/ContactForm';
-import Filter from './filter/Filter';
-import Alert from './Alert/Alert';
-import contactOperation from '../redux/contact/contactOperation';
-import contactSelector from '../redux/contact/contactSelector';
+import routes from '../routes';
+import Layout from './Layout';
+import { authOperations } from '../redux/auth';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchContacs();
+    this.props.onGetCurrentUser();
   }
 
   render() {
-    const { contacts } = this.props;
-
     return (
       <>
-        <Logo />
-        <Section>
-          <Alert isVisible={false} />
-          <ContactForm />
-        </Section>
-
-        {contacts && (
-          <Section title="Contacts">
-            <Filter isVisible={contacts.length > 1 ? true : false} />
-            <PhoneList />
-          </Section>
-        )}
+        <BrowserRouter>
+          <Layout>
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <Switch>
+                {routes.map(route => (
+                  <Route key={route.path} {...route} />
+                ))}
+              </Switch>
+            </Suspense>
+          </Layout>
+        </BrowserRouter>
       </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    contacts: contactSelector.getItems(state),
-  };
-};
-
-const mapDispatchToProps = {
-  fetchContacs: contactOperation.fetchContacs,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, {
+  onGetCurrentUser: authOperations.getCurrentUser,
+})(App);

@@ -23,7 +23,7 @@ ul {
 
 body {
   min-width: 320px;
-  max-width: 400px;
+  max-width: 80vw;
   margin: 0 auto;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;

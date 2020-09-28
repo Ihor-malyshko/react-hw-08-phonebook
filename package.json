@@ -21,6 +21,7 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
+    "deploy": "netlify deploy -p",
     "predeploy": "npm run build",
     "start": "react-scripts start",
     "build": "react-scripts build",
